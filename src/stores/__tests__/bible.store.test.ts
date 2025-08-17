@@ -198,8 +198,8 @@ describe('Bible Store', () => {
 
     // Mock books data
     store.books = [
-      { id: 'gen', name: 'Genesis', chapters: 50, order: 1 },
-      { id: 'exo', name: 'Exodus', chapters: 40, order: 2 }
+      { id: 'gen', name: 'Genesis', abbreviation: 'Gen', testament: 'old', chapters: 50, order: 1 },
+      { id: 'exo', name: 'Exodus', abbreviation: 'Exo', testament: 'old', chapters: 40, order: 2 }
     ]
 
     // Set position at first chapter of Exodus
@@ -222,11 +222,11 @@ describe('Bible Store', () => {
 
     // Mock the service call
     const { bibleContentService } = await import('@/services/bibleContentService')
-    vi.mocked(bibleContentService.downloadBibleVersion).mockResolvedValue(true)
+    vi.mocked(bibleContentService.downloadVersion).mockResolvedValue()
 
-    await store.downloadBibleVersion(versionId)
+    await store.downloadVersion(versionId)
 
-    expect(bibleContentService.downloadBibleVersion).toHaveBeenCalledWith(versionId)
+    expect(bibleContentService.downloadVersion).toHaveBeenCalledWith(versionId)
     expect(store.downloadedVersions).toContain(versionId)
   })
 
@@ -236,9 +236,9 @@ describe('Bible Store', () => {
 
     // Mock the service to throw an error
     const { bibleContentService } = await import('@/services/bibleContentService')
-    vi.mocked(bibleContentService.downloadBibleVersion).mockRejectedValue(new Error('Download failed'))
+    vi.mocked(bibleContentService.downloadVersion).mockRejectedValue(new Error('Download failed'))
 
-    await expect(store.downloadBibleVersion(versionId)).rejects.toThrow('Download failed')
+    await expect(store.downloadVersion(versionId)).rejects.toThrow('Download failed')
     expect(store.downloadedVersions).not.toContain(versionId)
   })
 
@@ -246,12 +246,12 @@ describe('Bible Store', () => {
     const store = useBibleStore()
 
     store.books = [
-      { id: 'gen', name: 'Genesis', chapters: 50, order: 1 },
-      { id: 'exo', name: 'Exodus', chapters: 40, order: 2 }
+      { id: 'gen', name: 'Genesis', abbreviation: 'Gen', testament: 'old', chapters: 50, order: 1 },
+      { id: 'exo', name: 'Exodus', abbreviation: 'Exo', testament: 'old', chapters: 40, order: 2 }
     ]
 
     const book = store.getBookByName('Genesis')
-    expect(book).toEqual({ id: 'gen', name: 'Genesis', chapters: 50, order: 1 })
+    expect(book).toEqual({ id: 'gen', name: 'Genesis', abbreviation: 'Gen', testament: 'old', chapters: 50, order: 1 })
 
     const nonExistentBook = store.getBookByName('NonExistent')
     expect(nonExistentBook).toBeUndefined()

@@ -74,7 +74,7 @@ describe('User Store', () => {
 
     // Mock the service call
     const { userContentService } = await import('@/services/userContentService')
-    vi.mocked(userContentService.addBookmark).mockResolvedValue(bookmark)
+    vi.mocked(userContentService.addBookmark).mockResolvedValue(bookmark.id)
 
     await store.addBookmark('Genesis', 1, 1)
 
@@ -142,7 +142,7 @@ describe('User Store', () => {
 
     // Mock the service call
     const { userContentService } = await import('@/services/userContentService')
-    vi.mocked(userContentService.addNote).mockResolvedValue(note)
+    vi.mocked(userContentService.addNote).mockResolvedValue(note.id)
 
     await store.addNote('Genesis', 1, 1, 'This is my note')
 
@@ -174,7 +174,7 @@ describe('User Store', () => {
 
     // Mock the service call
     const { userContentService } = await import('@/services/userContentService')
-    vi.mocked(userContentService.updateNote).mockResolvedValue(updatedNote)
+    vi.mocked(userContentService.updateNote).mockResolvedValue()
 
     await store.updateNote('1', 'Updated content')
 
@@ -200,7 +200,7 @@ describe('User Store', () => {
 
     // Mock the service call
     const { userContentService } = await import('@/services/userContentService')
-    vi.mocked(userContentService.deleteNote).mockResolvedValue(true)
+    vi.mocked(userContentService.deleteNote).mockResolvedValue()
 
     await store.deleteNote('1')
 
@@ -223,7 +223,7 @@ describe('User Store', () => {
 
     // Mock the service call
     const { userContentService } = await import('@/services/userContentService')
-    vi.mocked(userContentService.addHighlight).mockResolvedValue(highlight)
+    vi.mocked(userContentService.addHighlight).mockResolvedValue(highlight.id)
 
     await store.addHighlight('Genesis', 1, 1, '#FFFF00')
 
@@ -350,16 +350,16 @@ describe('User Store', () => {
 
     // Mock service calls
     const { userContentService } = await import('@/services/userContentService')
-    vi.mocked(userContentService.getBookmarks).mockResolvedValue(mockBookmarks)
-    vi.mocked(userContentService.getNotes).mockResolvedValue([])
-    vi.mocked(userContentService.getHighlights).mockResolvedValue([])
+    vi.mocked(userContentService.getAllBookmarks).mockResolvedValue(mockBookmarks)
+    vi.mocked(userContentService.getAllNotes).mockResolvedValue([])
+    vi.mocked(userContentService.getAllHighlights).mockResolvedValue([])
 
     await store.loadUserData()
 
     expect(store.bookmarks).toEqual(mockBookmarks)
-    expect(userContentService.getBookmarks).toHaveBeenCalled()
-    expect(userContentService.getNotes).toHaveBeenCalled()
-    expect(userContentService.getHighlights).toHaveBeenCalled()
+    expect(userContentService.getAllBookmarks).toHaveBeenCalled()
+    expect(userContentService.getAllNotes).toHaveBeenCalled()
+    expect(userContentService.getAllHighlights).toHaveBeenCalled()
   })
 
   it('should clear user data on logout', () => {

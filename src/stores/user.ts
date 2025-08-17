@@ -240,17 +240,34 @@ export const useUserStore = defineStore('user', () => {
     }
   }
 
-  async function removeBookmark(bookmarkId: string): Promise<void> {
+  async function removeBookmark(bookmarkIdOrBook: string, chapter?: number, verse?: number): Promise<void> {
     try {
-      // Remove from local storage
-      await illumineDB.bookmarks.delete(bookmarkId)
-      bookmarks.value = bookmarks.value.filter(b => b.id !== bookmarkId)
+      let bookmarkToRemove: Bookmark | undefined
 
-      // Perform optimistic update and queue for sync
-      if (preferences.value.autoSync && profile.value) {
-        const bookmarkToDelete = bookmarks.value.find(b => b.id === bookmarkId)
-        await syncService.performOptimisticUpdate('delete', 'bookmark', bookmarkId, undefined, bookmarkToDelete)
-        syncStatus.value = 'pending'
+      if (chapter !== undefined && verse !== undefined) {
+        // Called with book, chapter, verse
+        bookmarkToRemove = bookmarks.value.find(
+          b => b.book === bookmarkIdOrBook && b.chapter === chapter && b.verse === verse
+        )
+        if (bookmarkToRemove) {
+          await userContentService.removeBookmark(bookmarkIdOrBook, chapter, verse)
+        }
+      } else {
+        // Called with bookmark ID
+        bookmarkToRemove = bookmarks.value.find(b => b.id === bookmarkIdOrBook)
+        if (bookmarkToRemove) {
+          await illumineDB.bookmarks.delete(bookmarkIdOrBook)
+        }
+      }
+
+      if (bookmarkToRemove) {
+        bookmarks.value = bookmarks.value.filter(b => b.id !== bookmarkToRemove!.id)
+
+        // Perform optimistic update and queue for sync
+        if (preferences.value.autoSync && profile.value) {
+          await syncService.performOptimisticUpdate('delete', 'bookmark', bookmarkToRemove.id, undefined, bookmarkToRemove)
+          syncStatus.value = 'pending'
+        }
       }
 
     } catch (error) {
@@ -517,6 +534,23 @@ export const useUserStore = defineStore('user', () => {
     await initializeStore()
   }
 
+  // Missing methods for tests
+  function setProfile(newProfile: UserProfile): void {
+    profile.value = newProfile
+  }
+
+  function isBookmarked(book: string, chapter: number, verse: number): boolean {
+    return isVerseBookmarked(book, chapter, verse)
+  }
+
+  function deleteNote(noteId: string): Promise<void> {
+    return removeNote(noteId)
+  }
+
+  async function loadUserData(): Promise<void> {
+    await loadUserContent()
+  }
+
   return {
     // State
     profile,
@@ -555,6 +589,10 @@ export const useUserStore = defineStore('user', () => {
     getNotesForVerse,
     getHighlightsForVerse,
     isVerseBookmarked,
-    hydrateFromStorage
+    hydrateFromStorage,
+    setProfile,
+    isBookmarked,
+    deleteNote,
+    loadUserData
   }
 })

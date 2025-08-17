@@ -104,3 +104,5 @@ playwright/.cache/
 
 # Local development
 *.local
+# Local Netlify folder
+.netlify

@@ -240,6 +240,40 @@ export function useMoodTracking() {
   }
 
   /**
+   * Get mood emoji
+   */
+  function getMoodEmoji(mood: MoodType): string {
+    const emojiMap: Record<MoodType, string> = {
+      happy: '😊',
+      joyful: '😄',
+      grateful: '🙏',
+      blessed: '✨',
+      peaceful: '😌',
+      content: '😊',
+      hopeful: '🌟',
+      inspired: '💡',
+      motivated: '🚀',
+      excited: '🎉',
+      sad: '😢',
+      depressed: '😞',
+      angry: '😠',
+      frustrated: '😤',
+      anxious: '😰',
+      worried: '😟',
+      stressed: '😫',
+      fearful: '😨',
+      lonely: '😔',
+      bitter: '😒',
+      confused: '😕',
+      uncertain: '🤔',
+      reflective: '🤔',
+      curious: '🧐'
+    }
+
+    return emojiMap[mood] || '😐'
+  }
+
+  /**
    * Get encouragement message based on recent moods
    */
   function getEncouragementMessage(): string {

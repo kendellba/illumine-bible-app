@@ -53,7 +53,7 @@
           <!-- Personalized Recommendations -->
           <div class="dashboard-section">
             <PersonalizedRecommendations
-              :current-mood="currentMood"
+              :current-mood="currentMood || undefined"
               :limit="6"
               @verse-selected="onVerseSelected"
               @verse-bookmarked="onVerseBookmarked"
@@ -190,7 +190,7 @@
                     :key="mood"
                     class="mood-item"
                   >
-                    <span class="mood-emoji">{{ getMoodEmoji(mood) }}</span>
+                    <span class="mood-emoji">{{ getMoodEmoji(mood as MoodType) }}</span>
                     <span class="mood-name">{{ formatMoodName(mood) }}</span>
                     <span class="mood-count">{{ count }}</span>
                   </div>

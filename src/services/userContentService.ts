@@ -417,6 +417,47 @@ export class UserContentService {
       }
     }
   }
+
+  // Missing methods for tests
+  async getBookmarks(userId: string): Promise<StoredBookmark[]> {
+    return this.getAllBookmarks(userId)
+  }
+
+  async getNotes(userId: string): Promise<StoredNote[]> {
+    return this.getAllNotes(userId)
+  }
+
+  async getHighlights(userId: string): Promise<StoredHighlight[]> {
+    return this.getAllHighlights(userId)
+  }
+
+  async removeBookmark(book: string, chapter: number, verse: number): Promise<boolean> {
+    try {
+      const bookmark = await illumineDB.bookmarks
+        .where('[book+chapter+verse]')
+        .equals([book, chapter, verse])
+        .first()
+
+      if (bookmark) {
+        await illumineDB.bookmarks.delete(bookmark.id)
+        return true
+      }
+      return false
+    } catch (error) {
+      console.error('Failed to remove bookmark:', error)
+      return false
+    }
+  }
+
+  async removeHighlight(id: string): Promise<boolean> {
+    try {
+      await this.deleteHighlight(id)
+      return true
+    } catch (error) {
+      console.error('Failed to remove highlight:', error)
+      return false
+    }
+  }
 }
 
 // Export singleton instance

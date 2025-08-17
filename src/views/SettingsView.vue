@@ -20,10 +20,10 @@ const { showToast } = useToast()
 const activeTab = ref<'versions' | 'storage' | 'preferences' | 'accessibility' | 'account' | 'data'>('versions')
 
 const tabs = [
-  { id: 'versions', name: 'Bible Versions', icon: 'book' },
-  { id: 'storage', name: 'Storage', icon: 'database' },
-  { id: 'preferences', name: 'Preferences', icon: 'cog' },
-  { id: 'accessibility', name: 'Accessibility', icon: 'accessibility' },
+  { id: 'versions', name: 'Bible Versions', icon: 'book', requiresAuth: false },
+  { id: 'storage', name: 'Storage', icon: 'database', requiresAuth: false },
+  { id: 'preferences', name: 'Preferences', icon: 'cog', requiresAuth: false },
+  { id: 'accessibility', name: 'Accessibility', icon: 'accessibility', requiresAuth: false },
   { id: 'account', name: 'Account', icon: 'user', requiresAuth: true },
   { id: 'data', name: 'Data & Privacy', icon: 'shield', requiresAuth: true }
 ] as const
@@ -35,7 +35,7 @@ const availableTabs = computed(() => {
 const setActiveTab = (tabId: typeof activeTab.value) => {
   const tab = tabs.find(t => t.id === tabId)
   if (tab?.requiresAuth && !isAuthenticated.value) {
-    showToast('Please sign in to access this section', 'warning')
+    showToast('warning', 'Please sign in to access this section')
     router.push('/auth/login')
     return
   }

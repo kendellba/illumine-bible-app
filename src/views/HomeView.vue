@@ -126,12 +126,12 @@ async function handleQuickNavigation(verseId: string, reference: string) {
   }
 }
 
-function handleMoodLogged(mood, intensity) {
+function handleMoodLogged(mood: any, intensity: any) {
   currentMood.value = mood
   // Mood will automatically trigger new recommendations
 }
 
-function handleVerseSelected(verse) {
+function handleVerseSelected(verse: any) {
   // Navigate to the selected verse
   handleQuickNavigation(verse.verseId, verse.verseReference)
 }
@@ -325,7 +325,7 @@ async function handleCopy() {
 
         <!-- Personalized Recommendations -->
         <PersonalizedRecommendations
-          :current-mood="currentMood"
+          :current-mood="currentMood || undefined"
           :limit="3"
           @verse-selected="handleVerseSelected"
         />

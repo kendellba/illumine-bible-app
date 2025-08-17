@@ -91,7 +91,7 @@ export const useBibleStore = defineStore('bible', () => {
 
       // Load default books if none exist
       if (books.value.length === 0) {
-        await this.loadDefaultBooks()
+        await loadDefaultBooks()
       }
 
       // Set default version if none selected
@@ -148,7 +148,7 @@ export const useBibleStore = defineStore('bible', () => {
               storagePath: String(version.storagePath),
               isDownloaded: Boolean(version.isDownloaded),
               downloadSize: Number(version.downloadSize),
-              createdAt: version.createdAt instanceof Date ? version.createdAt : new Date(version.createdAt)
+              createdAt: version.createdAt instanceof Date ? version.createdAt : new Date(version.createdAt || Date.now())
             }
             await illumineDB.bibleVersions.put(plainVersion)
           }
@@ -689,6 +689,72 @@ export const useBibleStore = defineStore('bible', () => {
     }
   }
 
+  // Missing methods for tests
+  function setCurrentReading(position: ReadingPosition): void {
+    currentReading.value = position
+    saveReadingPosition(position)
+  }
+
+  function nextChapter(): void {
+    if (!currentReading.value) return
+
+    const currentBookData = books.value.find(b => b.id === currentReading.value!.book)
+    if (!currentBookData) return
+
+    if (currentReading.value.chapter < currentBookData.chapters) {
+      // Next chapter in same book
+      setCurrentReading({
+        ...currentReading.value,
+        chapter: currentReading.value.chapter + 1,
+        timestamp: new Date()
+      })
+    } else {
+      // Next book
+      const currentBookIndex = books.value.findIndex(b => b.id === currentReading.value!.book)
+      if (currentBookIndex < books.value.length - 1) {
+        const nextBook = books.value[currentBookIndex + 1]
+        setCurrentReading({
+          book: nextBook.id,
+          chapter: 1,
+          version: currentReading.value.version,
+          timestamp: new Date()
+        })
+      }
+    }
+  }
+
+  function previousChapter(): void {
+    if (!currentReading.value) return
+
+    if (currentReading.value.chapter > 1) {
+      // Previous chapter in same book
+      setCurrentReading({
+        ...currentReading.value,
+        chapter: currentReading.value.chapter - 1,
+        timestamp: new Date()
+      })
+    } else {
+      // Previous book
+      const currentBookIndex = books.value.findIndex(b => b.id === currentReading.value!.book)
+      if (currentBookIndex > 0) {
+        const previousBook = books.value[currentBookIndex - 1]
+        setCurrentReading({
+          book: previousBook.id,
+          chapter: previousBook.chapters,
+          version: currentReading.value.version,
+          timestamp: new Date()
+        })
+      }
+    }
+  }
+
+  function getBookByName(name: string): Book | undefined {
+    return books.value.find(book =>
+      book.name.toLowerCase() === name.toLowerCase() ||
+      book.abbreviation?.toLowerCase() === name.toLowerCase()
+    )
+  }
+
   return {
     // State
     versions,
@@ -724,6 +790,10 @@ export const useBibleStore = defineStore('bible', () => {
     getVersionStorageInfo,
     getTotalStorageUsed,
     getAvailableStorage,
-    hydrateFromStorage
+    hydrateFromStorage,
+    setCurrentReading,
+    nextChapter,
+    previousChapter,
+    getBookByName
   }
 })
