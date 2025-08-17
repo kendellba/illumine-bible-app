@@ -1,0 +1,450 @@
+/* Illumine Bible App Theme System */
+
+/* Base color palette */
+:root {
+  /* Light theme colors */
+  --color-white: #ffffff;
+  --color-gray-50: #f9fafb;
+  --color-gray-100: #f3f4f6;
+  --color-gray-200: #e5e7eb;
+  --color-gray-300: #d1d5db;
+  --color-gray-400: #9ca3af;
+  --color-gray-500: #6b7280;
+  --color-gray-600: #4b5563;
+  --color-gray-700: #374151;
+  --color-gray-800: #1f2937;
+  --color-gray-900: #111827;
+
+  /* Primary colors (blue) */
+  --color-primary-50: #eff6ff;
+  --color-primary-100: #dbeafe;
+  --color-primary-200: #bfdbfe;
+  --color-primary-300: #93c5fd;
+  --color-primary-400: #60a5fa;
+  --color-primary-500: #3b82f6;
+  --color-primary-600: #2563eb;
+  --color-primary-700: #1d4ed8;
+  --color-primary-800: #1e40af;
+  --color-primary-900: #1e3a8a;
+
+  /* Semantic colors */
+  --color-success: #10b981;
+  --color-warning: #f59e0b;
+  --color-error: #ef4444;
+  --color-info: #3b82f6;
+
+  /* Font sizes */
+  --font-size-xs: 0.75rem;    /* 12px */
+  --font-size-sm: 0.875rem;   /* 14px */
+  --font-size-base: 1rem;     /* 16px */
+  --font-size-lg: 1.125rem;   /* 18px */
+  --font-size-xl: 1.25rem;    /* 20px */
+  --font-size-2xl: 1.5rem;    /* 24px */
+  --font-size-3xl: 1.875rem;  /* 30px */
+
+  /* Line heights */
+  --line-height-tight: 1.25;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.625;
+  --line-height-loose: 2;
+
+  /* Spacing */
+  --spacing-xs: 0.25rem;   /* 4px */
+  --spacing-sm: 0.5rem;    /* 8px */
+  --spacing-md: 1rem;      /* 16px */
+  --spacing-lg: 1.5rem;    /* 24px */
+  --spacing-xl: 2rem;      /* 32px */
+  --spacing-2xl: 3rem;     /* 48px */
+
+  /* Border radius */
+  --radius-sm: 0.25rem;    /* 4px */
+  --radius-md: 0.375rem;   /* 6px */
+  --radius-lg: 0.5rem;     /* 8px */
+  --radius-xl: 0.75rem;    /* 12px */
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+
+  /* Transitions */
+  --transition-fast: 150ms ease-in-out;
+  --transition-normal: 250ms ease-in-out;
+  --transition-slow: 350ms ease-in-out;
+}
+
+/* Light theme (default) */
+:root,
+:root.light {
+  --theme-bg-primary: var(--color-white);
+  --theme-bg-secondary: var(--color-gray-50);
+  --theme-bg-tertiary: var(--color-gray-100);
+  --theme-bg-elevated: var(--color-white);
+
+  --theme-text-primary: var(--color-gray-900);
+  --theme-text-secondary: var(--color-gray-600);
+  --theme-text-tertiary: var(--color-gray-500);
+  --theme-text-inverse: var(--color-white);
+
+  --theme-border-primary: var(--color-gray-200);
+  --theme-border-secondary: var(--color-gray-300);
+  --theme-border-focus: var(--color-primary-500);
+
+  --theme-accent-primary: var(--color-primary-600);
+  --theme-accent-hover: var(--color-primary-700);
+  --theme-accent-light: var(--color-primary-50);
+
+  --theme-shadow: var(--shadow-md);
+  --theme-shadow-elevated: var(--shadow-lg);
+}
+
+/* Dark theme */
+:root.dark {
+  --theme-bg-primary: var(--color-gray-900);
+  --theme-bg-secondary: var(--color-gray-800);
+  --theme-bg-tertiary: var(--color-gray-700);
+  --theme-bg-elevated: var(--color-gray-800);
+
+  --theme-text-primary: var(--color-gray-100);
+  --theme-text-secondary: var(--color-gray-300);
+  --theme-text-tertiary: var(--color-gray-400);
+  --theme-text-inverse: var(--color-gray-900);
+
+  --theme-border-primary: var(--color-gray-700);
+  --theme-border-secondary: var(--color-gray-600);
+  --theme-border-focus: var(--color-primary-400);
+
+  --theme-accent-primary: var(--color-primary-500);
+  --theme-accent-hover: var(--color-primary-400);
+  --theme-accent-light: rgba(59, 130, 246, 0.1);
+
+  --theme-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+  --theme-shadow-elevated: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+}
+
+/* Font size classes */
+:root.font-size-small {
+  --current-font-size: var(--font-size-sm);
+  --current-line-height: var(--line-height-normal);
+}
+
+:root.font-size-medium {
+  --current-font-size: var(--font-size-base);
+  --current-line-height: var(--line-height-normal);
+}
+
+:root.font-size-large {
+  --current-font-size: var(--font-size-lg);
+  --current-line-height: var(--line-height-relaxed);
+}
+
+:root.font-size-extra-large {
+  --current-font-size: var(--font-size-xl);
+  --current-line-height: var(--line-height-relaxed);
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  :root {
+    --theme-border-primary: var(--color-gray-900);
+    --theme-border-secondary: var(--color-gray-800);
+    --theme-border-focus: var(--color-primary-700);
+  }
+
+  :root.dark {
+    --theme-border-primary: var(--color-gray-100);
+    --theme-border-secondary: var(--color-gray-200);
+    --theme-border-focus: var(--color-primary-300);
+  }
+}
+
+/* Manual high contrast mode */
+:root.high-contrast {
+  --theme-bg-primary: var(--color-white);
+  --theme-bg-secondary: var(--color-gray-50);
+  --theme-bg-tertiary: var(--color-gray-100);
+  --theme-bg-elevated: var(--color-white);
+
+  --theme-text-primary: var(--color-gray-900);
+  --theme-text-secondary: var(--color-gray-800);
+  --theme-text-tertiary: var(--color-gray-700);
+  --theme-text-inverse: var(--color-white);
+
+  --theme-border-primary: var(--color-gray-900);
+  --theme-border-secondary: var(--color-gray-800);
+  --theme-border-focus: var(--color-primary-700);
+
+  --theme-accent-primary: var(--color-primary-700);
+  --theme-accent-hover: var(--color-primary-800);
+  --theme-accent-light: var(--color-primary-100);
+}
+
+:root.dark.high-contrast {
+  --theme-bg-primary: var(--color-gray-900);
+  --theme-bg-secondary: var(--color-gray-800);
+  --theme-bg-tertiary: var(--color-gray-700);
+  --theme-bg-elevated: var(--color-gray-800);
+
+  --theme-text-primary: var(--color-white);
+  --theme-text-secondary: var(--color-gray-100);
+  --theme-text-tertiary: var(--color-gray-200);
+  --theme-text-inverse: var(--color-gray-900);
+
+  --theme-border-primary: var(--color-gray-100);
+  --theme-border-secondary: var(--color-gray-200);
+  --theme-border-focus: var(--color-primary-300);
+
+  --theme-accent-primary: var(--color-primary-400);
+  --theme-accent-hover: var(--color-primary-300);
+  --theme-accent-light: rgba(59, 130, 246, 0.2);
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --transition-fast: 0ms;
+    --transition-normal: 0ms;
+    --transition-slow: 0ms;
+  }
+}
+
+/* Manual reduced motion mode */
+:root.reduced-motion {
+  --transition-fast: 0ms;
+  --transition-normal: 0ms;
+  --transition-slow: 0ms;
+}
+
+:root.reduced-motion *,
+:root.reduced-motion *::before,
+:root.reduced-motion *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
+}
+
+/* Large text mode support */
+:root.large-text {
+  --current-font-size: calc(var(--font-size-base) * 1.25);
+  --current-line-height: var(--line-height-relaxed);
+}
+
+:root.large-text .text-xs { font-size: calc(var(--font-size-sm) * 1.25) !important; }
+:root.large-text .text-sm { font-size: calc(var(--font-size-base) * 1.25) !important; }
+:root.large-text .text-base { font-size: calc(var(--font-size-lg) * 1.25) !important; }
+:root.large-text .text-lg { font-size: calc(var(--font-size-xl) * 1.25) !important; }
+:root.large-text .text-xl { font-size: calc(var(--font-size-2xl) * 1.25) !important; }
+
+/* Enhanced focus indicators */
+:root.enhanced-focus :focus-visible {
+  outline: 3px solid var(--theme-border-focus) !important;
+  outline-offset: 3px !important;
+  box-shadow: 0 0 0 6px rgba(59, 130, 246, 0.2) !important;
+}
+
+:root.enhanced-focus button:focus-visible,
+:root.enhanced-focus a:focus-visible,
+:root.enhanced-focus input:focus-visible,
+:root.enhanced-focus select:focus-visible,
+:root.enhanced-focus textarea:focus-visible {
+  outline: 3px solid var(--theme-border-focus) !important;
+  outline-offset: 2px !important;
+  box-shadow: 0 0 0 5px rgba(59, 130, 246, 0.3) !important;
+}
+
+/* Screen reader optimization */
+:root.screen-reader-optimized .sr-only {
+  position: static !important;
+  width: auto !important;
+  height: auto !important;
+  padding: 0.25rem !important;
+  margin: 0 !important;
+  overflow: visible !important;
+  clip: auto !important;
+  white-space: normal !important;
+  border: 1px solid var(--theme-border-primary) !important;
+  background: var(--theme-bg-secondary) !important;
+  color: var(--theme-text-primary) !important;
+  font-size: var(--font-size-sm) !important;
+}
+
+/* Keyboard navigation enhancements */
+:root.keyboard-navigation {
+  --focus-ring-width: 3px;
+  --focus-ring-offset: 2px;
+}
+
+:root.keyboard-navigation [tabindex]:focus-visible,
+:root.keyboard-navigation button:focus-visible,
+:root.keyboard-navigation a:focus-visible,
+:root.keyboard-navigation input:focus-visible,
+:root.keyboard-navigation select:focus-visible,
+:root.keyboard-navigation textarea:focus-visible {
+  outline: var(--focus-ring-width) solid var(--theme-border-focus);
+  outline-offset: var(--focus-ring-offset);
+  position: relative;
+  z-index: 10;
+}
+
+/* Base reset and typography */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  font-weight: normal;
+}
+
+html {
+  /* Enable smooth scrolling for better UX */
+  scroll-behavior: smooth;
+
+  /* Respect user's motion preferences */
+  @media (prefers-reduced-motion: reduce) {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  min-height: 100vh;
+  color: var(--theme-text-primary);
+  background: var(--theme-bg-primary);
+  transition:
+    color var(--transition-normal),
+    background-color var(--transition-normal);
+  line-height: var(--current-line-height, var(--line-height-normal));
+  font-family:
+    'Inter',
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    'Fira Sans',
+    'Droid Sans',
+    'Helvetica Neue',
+    sans-serif;
+  font-size: var(--current-font-size, var(--font-size-base));
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Focus management for accessibility */
+:focus {
+  outline: 2px solid var(--theme-border-focus);
+  outline-offset: 2px;
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+:focus-visible {
+  outline: 2px solid var(--theme-border-focus);
+  outline-offset: 2px;
+}
+
+/* Skip link for screen readers */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 6px;
+  background: var(--theme-accent-primary);
+  color: var(--theme-text-inverse);
+  padding: 8px;
+  text-decoration: none;
+  border-radius: var(--radius-md);
+  z-index: 1000;
+  font-weight: 600;
+}
+
+.skip-link:focus {
+  top: 6px;
+}
+
+/* Screen reader only content */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* High contrast mode improvements */
+@media (prefers-contrast: high) {
+  :focus-visible {
+    outline-width: 3px;
+  }
+}
+
+/* Accessibility audit highlights */
+.accessibility-issue-highlight {
+  outline: 3px dashed #ff6b6b !important;
+  outline-offset: 2px !important;
+  position: relative !important;
+}
+
+.accessibility-issue-highlight::after {
+  content: '⚠️';
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: #ff6b6b;
+  color: white;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  z-index: 1000;
+}
+
+/* Device-specific styles */
+.touch-device button,
+.touch-device a,
+.touch-device input,
+.touch-device select,
+.touch-device textarea {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+.mobile-device .btn {
+  padding: 12px 16px;
+  font-size: 16px; /* Prevent zoom on iOS */
+}
+
+.mobile-device .form-input {
+  font-size: 16px; /* Prevent zoom on iOS */
+}
+
+/* Print styles */
+@media print {
+  body {
+    background: white !important;
+    color: black !important;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  .accessibility-issue-highlight {
+    outline: none !important;
+  }
+
+  .accessibility-issue-highlight::after {
+    display: none !important;
+  }
+}
