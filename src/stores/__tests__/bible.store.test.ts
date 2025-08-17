@@ -175,8 +175,8 @@ describe('Bible Store', () => {
 
     // Mock books data
     store.books = [
-      { id: 'gen', name: 'Genesis', chapters: 50, order: 1 },
-      { id: 'exo', name: 'Exodus', chapters: 40, order: 2 }
+      { id: 'gen', name: 'Genesis', abbreviation: 'Gen', testament: 'old', chapters: 50, order: 1 },
+      { id: 'exo', name: 'Exodus', abbreviation: 'Exo', testament: 'old', chapters: 40, order: 2 }
     ]
 
     // Set position at last chapter of Genesis

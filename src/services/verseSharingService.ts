@@ -118,7 +118,7 @@ export class VerseSharingService {
    * Get sharing history
    */
   async getShareHistory(): Promise<VerseShare[]> {
-    const { data, error } = await supabase
+    const { data, error } = await (supabase as any)
       .from('verse_shares')
       .select('*')
       .order('shared_at', { ascending: false })
@@ -298,7 +298,7 @@ export class VerseSharingService {
     shareType: 'text' | 'image' | 'link'
   ): Promise<void> {
     try {
-      const { error } = await supabase
+      const { error } = await (supabase as any)
         .from('verse_shares')
         .insert({
           verse_id: verseId,
@@ -321,15 +321,16 @@ export class VerseSharingService {
    * Transform database record to VerseShare
    */
   private transformShare(data: unknown): VerseShare {
+    const record = data as any
     return {
-      id: data.id,
-      userId: data.user_id,
-      verseId: data.verse_id,
-      verseText: data.verse_text,
-      verseReference: data.verse_reference,
-      bibleVersionId: data.bible_version_id,
-      shareType: data.share_type,
-      sharedAt: new Date(data.shared_at)
+      id: record.id,
+      userId: record.user_id,
+      verseId: record.verse_id,
+      verseText: record.verse_text,
+      verseReference: record.verse_reference,
+      bibleVersionId: record.bible_version_id,
+      shareType: record.share_type,
+      sharedAt: new Date(record.shared_at)
     }
   }
 }

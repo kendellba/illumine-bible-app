@@ -351,6 +351,53 @@ export const useAppStore = defineStore('app', () => {
     }
   }
 
+  // Missing methods for tests
+  function setOnlineStatus(online: boolean): void {
+    isOnline.value = online
+    if (!online) {
+      lastOnlineTime.value = new Date()
+    }
+  }
+
+  function setVerseOfTheDay(verse: any): void {
+    verseOfTheDay.value = verse
+  }
+
+  function loadPreferences(): void {
+    loadAppPreferences()
+  }
+
+  function toggleTheme(): void {
+    if (theme.value === 'light') {
+      setTheme('dark')
+    } else if (theme.value === 'dark') {
+      setTheme('system')
+    } else {
+      setTheme('light')
+    }
+  }
+
+  function increaseFontSize(): void {
+    const sizes: FontSize[] = ['small', 'medium', 'large', 'extra-large']
+    const currentIndex = sizes.indexOf(fontSize.value)
+    if (currentIndex < sizes.length - 1) {
+      setFontSize(sizes[currentIndex + 1])
+    }
+  }
+
+  function decreaseFontSize(): void {
+    const sizes: FontSize[] = ['small', 'medium', 'large', 'extra-large']
+    const currentIndex = sizes.indexOf(fontSize.value)
+    if (currentIndex > 0) {
+      setFontSize(sizes[currentIndex - 1])
+    }
+  }
+
+  function resetPreferences(): void {
+    setTheme('system')
+    setFontSize('medium')
+  }
+
   return {
     // State
     isOnline,
@@ -391,6 +438,13 @@ export const useAppStore = defineStore('app', () => {
     updatePerformanceMetrics,
     getAppStats,
     resetApp,
-    hydrateFromStorage
+    hydrateFromStorage,
+    setOnlineStatus,
+    setVerseOfTheDay,
+    loadPreferences,
+    toggleTheme,
+    increaseFontSize,
+    decreaseFontSize,
+    resetPreferences
   }
 })

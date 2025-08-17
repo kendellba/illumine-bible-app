@@ -24,7 +24,7 @@ export class VerseCollectionsService {
     isPublic: boolean = false
   ): Promise<VerseCollection> {
     try {
-      const { data, error } = await supabase
+      const { data, error } = await (supabase as any)
         .from('verse_collections')
         .insert({
           name,
@@ -448,15 +448,16 @@ export class VerseCollectionsService {
   }
 
   private transformCollectionVerse(data: unknown): CollectionVerse {
+    const record = data as any
     return {
-      id: data.id,
-      collectionId: data.collection_id,
-      verseId: data.verse_id,
-      verseReference: data.verse_reference,
-      bibleVersionId: data.bible_version_id,
-      verseText: data.verse_text,
-      notes: data.notes,
-      addedAt: new Date(data.added_at)
+      id: record.id,
+      collectionId: record.collection_id,
+      verseId: record.verse_id,
+      verseReference: record.verse_reference,
+      bibleVersionId: record.bible_version_id,
+      verseText: record.verse_text,
+      notes: record.notes,
+      addedAt: new Date(record.added_at)
     }
   }
 }

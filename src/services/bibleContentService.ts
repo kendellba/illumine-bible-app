@@ -639,6 +639,27 @@ export class BibleContentService {
       incompleteChapters
     }
   }
+  // Missing methods for tests
+  async getBibleVersions(): Promise<StoredBibleVersion[]> {
+    return this.getAllBibleVersions()
+  }
+
+  async getVerses(book: string, chapter: number, version?: string): Promise<Verse[]> {
+    const targetVersion = version || 'kjv'
+    const verses = await illumineDB.verses
+      .where('[book+chapter+version]')
+      .equals([book, chapter, targetVersion])
+      .sortBy('verse')
+
+    return verses.map(v => ({
+      id: v.id,
+      book: v.book,
+      chapter: v.chapter,
+      verse: v.verse,
+      text: v.text,
+      version: v.version
+    }))
+  }
 }
 
 // Export singleton instance

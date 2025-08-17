@@ -114,7 +114,7 @@ export interface ReadingPosition {
   id?: string
   book: string
   chapter: number
-  verse?: number
+  verse?: number | null
   version: string
   timestamp?: Date
 }

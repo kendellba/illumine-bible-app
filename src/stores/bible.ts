@@ -379,10 +379,16 @@ export const useBibleStore = defineStore('bible', () => {
     }
   }
 
-  async function setCurrentVersion(versionId: string): Promise<void> {
-    const version = versions.value.find(v => v.id === versionId)
-    if (!version) {
-      throw new Error(`Version ${versionId} not found`)
+  async function setCurrentVersion(versionIdOrObject: string | BibleVersion): Promise<void> {
+    let version: BibleVersion | undefined
+
+    if (typeof versionIdOrObject === 'string') {
+      version = versions.value.find(v => v.id === versionIdOrObject)
+      if (!version) {
+        throw new Error(`Version ${versionIdOrObject} not found`)
+      }
+    } else {
+      version = versionIdOrObject
     }
 
     // Allow setting any available version, not just downloaded ones
@@ -397,14 +403,14 @@ export const useBibleStore = defineStore('bible', () => {
         // Check if the current chapter exists in the new version
         const chapterExists = await illumineDB.verses
           .where('[book+chapter+version]')
-          .equals([currentReading.value.book, currentReading.value.chapter, versionId])
+          .equals([currentReading.value.book, currentReading.value.chapter, version.id])
           .first()
 
         if (chapterExists) {
           // Update reading position to new version
           const newPosition: ReadingPosition = {
             ...currentReading.value,
-            version: versionId,
+            version: version.id,
             timestamp: new Date()
           }
 
@@ -412,39 +418,39 @@ export const useBibleStore = defineStore('bible', () => {
           currentReading.value = newPosition
 
           // Reload current chapter with new version
-          await loadChapter(newPosition.book, newPosition.chapter, versionId)
+          await loadChapter(newPosition.book, newPosition.chapter, version.id)
         } else {
           // If chapter doesn't exist in new version, go to the beginning of the book
           const firstChapter = await illumineDB.verses
             .where('[book+version]')
-            .equals([currentReading.value.book, versionId])
+            .equals([currentReading.value.book, version.id])
             .first()
 
           if (firstChapter) {
             const newPosition: ReadingPosition = {
               book: currentReading.value.book,
               chapter: firstChapter.chapter,
-              version: versionId,
+              version: version.id,
               timestamp: new Date()
             }
 
             await saveReadingPosition(newPosition)
             currentReading.value = newPosition
-            await loadChapter(newPosition.book, newPosition.chapter, versionId)
+            await loadChapter(newPosition.book, newPosition.chapter, version.id)
           }
         }
       } catch (error) {
         console.error('Failed to maintain reading position during version switch:', error)
         // Fallback: just update the version without changing position
         if (currentReading.value) {
-          currentReading.value.version = versionId
+          currentReading.value.version = version.id
           await saveReadingPosition(currentReading.value)
         }
       }
     }
 
     // Update version last accessed time
-    await illumineDB.bibleVersions.update(versionId, {
+    await illumineDB.bibleVersions.update(version.id, {
       lastAccessed: new Date()
     })
   }
@@ -794,6 +800,9 @@ export const useBibleStore = defineStore('bible', () => {
     setCurrentReading,
     nextChapter,
     previousChapter,
-    getBookByName
+    getBookByName,
+    // Missing methods for tests
+    loadBibleVersions: loadAvailableVersions,
+    getVerses: loadChapter
   }
 })
